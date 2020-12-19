@@ -51,36 +51,10 @@ apt-get install checkinstall zlib1g-dev
 ```
 apt-get install -y libssl-dev autoconf libtool make
 ```
-** dependecies untuk apache2
-```
-apt-get install libapr1 libapr1-dev libaprutil1-dev apache2-threaded-dev
-```
 
-** dependecies untuk php5
+** tambahan dependecies untuk php5
 ```
-apt-get install \
-    libxml2-dev \
-    libcurl4-openssl-dev \
-    libjpeg62-dev \
-    libpng12-dev \
-    libxpm-dev \
-    libmysqlclient15-dev \
-    libicu-dev \
-    libfreetype6-dev \
-    libldap2-dev \
-    libxslt-dev \
-    libssl-dev \
-    libldb-dev \
-    libbz2-dev \
-    libt1-dev \
-    libgmp3-dev \
-    libmcrypt-dev \
-    libsasl2-dev \
-    freetds-dev \
-    libpspell-dev \
-    librecode-dev \
-    libsnmp-dev \
-    libtidy-dev
+apt-get install libmcrypt-dev
 ```
 
 ## INSTALASI OPENSSL
