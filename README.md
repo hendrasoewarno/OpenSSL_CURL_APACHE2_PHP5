@@ -223,3 +223,8 @@ buat curl.ini pada /etc/php5/conf.d
 ; configuration for php CURL module
 extension=curl.so
 ```
+
+Duplikasi test.php ke folder /var/www, dan jalankan
+```
+php test.php
+```
