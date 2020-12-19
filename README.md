@@ -1,5 +1,5 @@
 # OpenSSL CURL APACHE2 PHP5 + MOD_SECURITY
-Proses Upgrade Package OpenSSL, Curl, Apache2 dan libapache-mod-security dan PHP5 pada Server Ubuntu 9.04
+Proses Upgrade perintah CURL pada PHP agar mendukung libssl1.0.1o sehingga dapat digunakan untuk request ke https server > TLS1.0
 
 ## INSTALASI OPENSSL, CURL, APACHE2, PHP5
 --------------------------------------
@@ -240,3 +240,5 @@ php test.php
 apt-get install libapache-mod-security
 service apache2 restart
 ```
+#Kesimpulan
+Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o
