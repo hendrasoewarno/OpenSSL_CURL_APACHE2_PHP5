@@ -128,7 +128,7 @@ openssl version -d
 ```
 ** catat lokasi OPENSSLDIR
 ```
-./configure -disable-shared -with-ssl=/usr/lib/ssl
+./configure -disable-shared -with-ssl=/usr/local/ssl
 ```
 Ingat folder harus disesuaikan dengan lokasi [OPENSSLDIR]
 ```
@@ -163,7 +163,7 @@ openssl version -d
 ```
 sudo pico apache.sh
 ```
-** cari dan ganti baris "--with-ssl=/usr/lib/ssl", harus sama dengan lokasi [OPENSSLDIR]
+** cari dan ganti baris "--with-ssl=/usr/lib/ssl", tetap menggunakan libssl0.9.8
 ```
 ./apache.sh
 make
