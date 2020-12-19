@@ -132,7 +132,7 @@ openssl version -d
 ```
 ** catat lokasi OPENSSLDIR
 ```
-./configure -disable-shared -with-ssl=/usr/local/ssl
+./configure -with-ssl=/usr/local/ssl
 ```
 Ingat folder harus disesuaikan dengan lokasi [OPENSSLDIR]
 ```
