@@ -25,7 +25,7 @@ File yang dibutuhkan:
 
 Karena Server Ubuntu 9.04 tidak lagi disupport, sehingga kita perlu mengupdate SOURCE.LIST pada /etc/apt/source.list
 ```
-pico /etc/apt/sources.list
+sed -i 's/us.archive/old-releases/g' /etc/apt/sources.list
 ```
 cari dan ganti semua semua url us-archieve.ubuntu.com menjadi old-releases.ubuntu.com
 
