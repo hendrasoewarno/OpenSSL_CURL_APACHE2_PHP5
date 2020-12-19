@@ -200,6 +200,7 @@ make clean
 make install
 ```
 ---------------------------------------------Jika terjadi error
+
   apxs:Error: Activation failed for custom /etc/apache2/httpd.conf
   file..
   apxs:Error: At least one `LoadModule' directive already has to exist..
@@ -212,6 +213,7 @@ make install
 	find /etc/php5/conf.d/ -name "*.ini" -exec sed -i -re 's/^(\s*)#(.*)/\1;\2/g' {} \;
 
   dan remark beberapa error
+  
 ---------------------------------------------Jika terjadi error
 ```
 libtool --finish /usr/local/src/php-5.4.45/libs
