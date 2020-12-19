@@ -71,16 +71,42 @@ Download package https://www.openssl.org/source/openssl-1.0.1o.tar.gz
 tar -xf openssl-1.0.1o.tar.gz
 cd openssl-1.0.1o
 
-./config --prefix=/usr --openssldir=/usr/lib/ssl shared zlib
+./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
 
 make
 make test
 make install
-
-which openssl
-
-openssl version -a
 ```
+Mengaktifkan libssl1.0.1o dengan menambahkan ke ld.so.conf.d
+```
+cd /etc/ld.so.conf.d
+sudo pico openssl-1.0.1o.conf
+```
+Ketikan path ke /usr/local/ssl
+```
+/usr/local/ssl
+```
+Simpan dan jalankan
+```
+ldconfig -v
+```
+Dan pastikan adanya
+```
+/usr/local/ssl/lib:
+	libssl.so.1.0.0 -> libssl.so.1.0.0
+	libcrypto.so.1.0.0 -> libcrypti.so.1.0.0
+```
+Dan tambahkan path eksekusi openssl ke PATH
+```
+sudo pico /etc/environment
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/ssl/bin"
+```
+Lakukan reload environment
+```
+source /etc/environment
+echo $PATH
+```
+
 
 ## INSTALASI CURL
 
