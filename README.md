@@ -106,7 +106,11 @@ Lakukan reload environment
 source /etc/environment
 echo $PATH
 ```
-
+Sembunyikan openssl yang lama
+```
+mv /usr/bin/c_rehash /usr/bin/c_rehash.old
+mv /usr/bin/openssl /usr/bin/openssl.old
+```
 
 ## INSTALASI CURL
 
