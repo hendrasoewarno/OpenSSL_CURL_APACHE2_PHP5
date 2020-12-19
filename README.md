@@ -63,7 +63,7 @@ Periksa versi OpenSSL yang terinstalasi saat ini
 
 openssl version
 ```
-cd /usr/local/src/
+cd /usr/local/src/lib
 ```
 
 Download package https://www.openssl.org/source/openssl-1.0.1o.tar.gz
