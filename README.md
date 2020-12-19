@@ -4,36 +4,45 @@ Proses Upgrade Package OpenSSL, Curl, Apache2 dan PHP5 pada Server Ubuntu 9.04
 ## INSTALASI OPENSSL, CURL, APACHE2, PHP5
 --------------------------------------
 
+Semua proses dibawah ini adalah menggunakan hak power user
+
+sudo su
+
+Pastikan Versi Server Ubuntu anda adalah 9.04
+
 lsb_release -a
 
-updatedb
-untuk mengupdate database locate
+Lakukan update database Locate
 
-file yang dibutuhkan:
+dbupdate
+
+File yang dibutuhkan:
 1. apache.sh
 2. config.nice
 
-** UPDATE SOURCES.LIST untuk memungkinkan instalasi pada Ubuntu versi lama
-https://askubuntu.com/questions/91815/how-to-install-software-or-upgrade-from-an-old-unsupported-release
+Karena Server Ubuntu 9.04 tidak lagi disupport, sehingga kita perlu mengupdate SOURCE.LIST pada /etc/apt/source.list
 
-gedit /etc/apt/sources.list
-** ganti semua us-archieve.ubuntu.com menjadi old-releases.ubuntu.com
+pico /etc/apt/sources.list
+cari dan ganti semua semua url us-archieve.ubuntu.com menjadi old-releases.ubuntu.com
 
-** pada ubuntu untuk mendapatkan package depedencies 
-sudo apt-get build-dep apache2
-sudo apt-get build-dep php5
+Kemudian jalankan proses update
 
-https://stackoverflow.com/questions/9520957/get-current-php-install-settings
+apt-get update
+
+Jalankan perintah berikut ini untuk menginstalasi semua dependencies yang dibutuhkan untuk proses kompilasi package Apache2 dan PHP2
+
+apt-get install build-essential
+apt-get build-dep apache2
+apt-get build-dep php5
+
+atau
 
 ** untuk openssl
-apt update
-apt install build-essential checkinstall zlib1g-dev -y
-
+apt-get install checkinstall zlib1g-dev
 
 ** untuk curl
 apt-get update
 apt-get install -y libssl-dev autoconf libtool make
-
 
 ** untuk apache2
 apt-get install libapr1 libapr1-dev libaprutil1-dev apache2-threaded-dev
@@ -63,96 +72,67 @@ apt-get install \
     libsnmp-dev \
     libtidy-dev
 
-INSTALASI OPENSSL
------------------
+## INSTALASI OPENSSL
+
+Periksa versi OpenSSL yang terinstalasi saat ini
+
 openssl version
 
-kalau saya coba pada ubuntu 9.04, versi 1.0.1o masih bisa dikompilasi
-
-https://www.howtoforge.com/tutorial/how-to-install-openssl-from-source-on-linux/
-
 cd /usr/local/src/
-wget https://www.openssl.org/source/openssl-1.0.1o.tar.gz
+
+Download package https://www.openssl.org/source/openssl-1.0.1o.tar.gz
+
 tar -xf openssl-1.0.1o.tar.gz
 cd openssl-1.0.1o
 
-./config --prefix=/usr/local/ssl --openssldir=/usr/local/ssl shared zlib
+./config --prefix=/usr --openssldir=/usr/lib/ssl shared zlib
 
-kalau ubuntu original
-#./config --prefix=/usr --openssldir=/usr/lib/ssl shared zlib
-
-** Untuk ubuntu diupayakan sama dengan ubuntu original
-
-** Akan menginstalasi open ssl pada /usr/local/ssl dan library pada /usr/local/ssl
 make
 make test
 make install
 
--------------------------------------ini dibutuhkan kalau beda dengan /usr/lib/ssl
-** konfigurasi shared library
-cd /etc/ld.so.conf.d/
-sudo pico openssl-1.0.1o.conf
-	dan ketikan /usr/local/ssl/lib
-	
-sudo ldconfig -v
-	pastikan library telah berhasil diload
-	
-** backup file openssl yang lama
-
-	mv /usr/bin/c_rehash /usr/bin/c_rehash.old
-	mv /usr/bin/openssl /usr/bin/openssl.old
-	
-** tambahkan path ke openssl baru /usr/local/ssl/bin 
-	sudo pico /etc/environment
-	PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/local/ssl/bin"
-
-** reload environment 
-	source /etc/environment
-	echo $PATH
--------------------------------------ini dibutuhkan kalau beda dengan /usr/lib/ssl
-
 which openssl
+
 openssl version -a
 
 
-INSTALASI CURL
---------------
+## INSTALASI CURL
 
-kalau saya coba pada ubuntu 9.04, versi 7.49.1 masih bisa dikompilasi
-
-https://blog.usejournal.com/how-to-manually-update-curl-on-ubuntu-server-899476062ad6
-
-https://curl.se/download/curl-7.49.1.tar.gz
+Periksa versi CURL yang terinstalasi saat ini.
 
 curl -V
+
+cd /usr/local/src/
+
+Download package https://curl.se/download/curl-7.49.1.tar.gz
+
+tar -xf curl-7.49.1.tar.gz
+
+cd curl-7.49.1
+
 which curl
 
 openssl version -d
 ** catat lokasi OPENSSLDIR
 
-./configure -disable-shared -with-ssl=/usr/local/ssl
+./configure -disable-shared -with-ssl=/usr/lib/ssl
 
 Ingat folder harus disesuaikan dengan lokasi [OPENSSLDIR]
 
 make
 
-**backup curl yang lama
-	mv /usr/bin/curl /usr/bin/curl.bak
-	
 make install
 
 cp /usr/local/bin/curl /usr/bin/curl
 
-pastikan ketika:
-
 curl -V
-adalah menggunakan openssl 1.0.1o
+Pastikan CURL adalah telah menggunakan openssl 1.0.1o
 
 
-INSTALASI APACHE2
------------------
+## INSTALASI APACHE2
 
-** pastikan backup konfigurasi APACHE2 saat ini
+Lakukan backup konfigurasi APACHE2 saat ini
+
 sudo cp -r /etc/apache2 ~/apache2_conf_back
 
 sudo su
@@ -167,7 +147,7 @@ openssl version -d
 ** catat lokasi OPENSSLDIR
 
 sudo pico apache.sh
-** cari dan ganti baris "--with-ssl=/usr/local/ssl", harus sama dengan lokasi [OPENSSLDIR]
+** cari dan ganti baris "--with-ssl=/usr/lib/ssl", harus sama dengan lokasi [OPENSSLDIR]
 
 ./apache.sh
 make
@@ -177,22 +157,18 @@ make install
 ldd /usr/lib/apache2/modules/mod_ssl.so
 ** pastikan versi libssl sudah sesuai
 
-** kembalikan backup konfigurasi APACHE2 hasil backup
+Kembalikan backup konfigurasi APACHE2 yang telah dibackup sebelumnya
+
 sudo rm -rf /etc/apache2
 sudo cp -r ~/apache2_conf_back /etc/apache2
 
 apache2 -v
-** akan ditampilkan versi apache saat ini
 
-** periksa keberadaan ssl.conf dan ssl.load pada /etc/apache2/mods-available
-cd ..
-
-** pastikan ssl.conf dan ssl.load sudah dienbale pada /etc/apache2/mods-enabled
+** pastikan ssl.conf dan ssl.load sudah dienable pada /etc/apache2/mods-enabled
 ln -s ../mod-available/ssl.load ssl.load
 ln -s ../mod-available/ssl.conf ssl.conf
 
-INSTALASI PHP
--------------
+## INSTALASI PHP
 
 https://www.php.net/distributions/php-5.4.45.tar.gz
 
