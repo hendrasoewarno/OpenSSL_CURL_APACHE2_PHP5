@@ -16,7 +16,7 @@ lsb_release -a
 
 Lakukan update database Locate
 ```
-dbupdate
+updatedb
 ```
 
 File yang dibutuhkan:
