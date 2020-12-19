@@ -1,5 +1,5 @@
-# OpenSSL_CURL_APACHE2_PHP5
-Proses Upgrade Package OpenSSL, Curl, Apache2 dan PHP5 pada Server Ubuntu 9.04
+# OpenSSL CURL APACHE2 PHP5 + MOD_SECURITY
+Proses Upgrade Package OpenSSL, Curl, Apache2 dan libapache-mod-security dan PHP5 pada Server Ubuntu 9.04
 
 ## INSTALASI OPENSSL, CURL, APACHE2, PHP5
 --------------------------------------
@@ -229,4 +229,9 @@ extension=curl.so
 Duplikasi test.php ke folder /var/www, dan jalankan
 ```
 php test.php
+```
+## INSTALASI MOD-SECURITY
+```
+apt-get install libapache-mod-security
+service apache2 restart
 ```
