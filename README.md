@@ -303,6 +303,8 @@ Content-Type: text/html
 Buka file /etc/apache2/conf.d/security, dan ubah:
 ```
 ServerTokens Prod
+ServerSignature Off
+TraceEnable Off
 ```
 Restart Apache2
 ```
