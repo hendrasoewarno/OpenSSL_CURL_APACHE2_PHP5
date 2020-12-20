@@ -75,14 +75,10 @@ make install
 ```
 Mengaktifkan libssl1.0.1o dengan menambahkan ke ld.so.conf.d
 ```
-cd /etc/ld.so.conf.d
-sudo pico openssl-1.0.1o.conf
+echo "/usr/local/ssl" > /etc/ld.so.conf.d/openssl-1.0.1o.conf
 ```
-Ketikan path ke /usr/local/ssl
-```
-/usr/local/ssl
-```
-Simpan dan jalankan perintah berikut untuk menghapus cache dan merefresh ldconfig
+Perintah tersebut diatas akan membuat file /etc/ld.so.conf.d/openssl-1.0.1o.conf yang berisi /usr/local/ssl
+Jalankan perintah berikut untuk menghapus library cache dan merefresh kembali
 ```
 rm /etc/ld.so.cache
 ldconfig -v
@@ -176,12 +172,17 @@ sudo cp -r ~/apache2_conf_back /etc/apache2
 
 apache2 -v
 ```
-** pastikan ssl.conf dan ssl.load sudah dienable dengan membuat link pada /etc/apache2/mods-enabled
+** pastikan untuk mengaktifkan module ssl
 ```
-cd /etc/apache2/mods-enabled
-ln -s ../mods-available/ssl.load ssl.load
-ln -s ../mods-available/ssl.conf ssl.conf
+sudo a2enmod ssl
 ```
+Perintah diatas akan membuat symbolic link yang secara manual adalah:
+```
+#cd /etc/apache2/mods-enabled
+#ln -s ../mods-available/ssl.load ssl.load
+#ln -s ../mods-available/ssl.conf ssl.conf
+```
+
 ## INSTALASI PHP
 
 Download https://www.php.net/distributions/php-5.4.45.tar.gz
@@ -235,7 +236,24 @@ dan periksa isi file test.php.1 apakah ada pesan error.
 ## INSTALASI MOD-SECURITY
 ```
 apt-get install libapache-mod-security
+a2enmod mod-security
 service apache2 restart
 ```
+Periksa module mod_security telah diaktifkan
+```
+apache2ctl -M
+```
+dan akan tampil security2_module (shared)
+```
+echo "Include conf.d/modsecurity/*.conf" > /etc/apache2/conf.d/modsecurity2.conf
+```
+yang bertujuan untuk memasukan semua rules mod_security
+Langkah selanjutnya adalah membuat symbolic link untuk mengalihkan semua log file mod_security dari /etc/apache2/logs ke /var/log/apache2/mod_security
+
+```
+mkdir /var/log/apache2/mod_security
+ln -s /var/log/apache2/mod_security/ /etc/apache2/logs
+```
+
 # Kesimpulan
 Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o
