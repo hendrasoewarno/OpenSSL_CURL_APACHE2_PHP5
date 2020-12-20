@@ -323,6 +323,8 @@ Content-Length: 45
 Vary: Accept-Encoding
 Content-Type: text/html
 ```
+Log dari mod_security dapat dibaca di /var/log/apache2/mod_security yang terdiri dari file modsec_audit.log.
 
 # Kesimpulan
-Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o
+Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o.
+Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai yang mengarah kepada eksploitasi WEB seperti tindakan SqlInjection dan XSS.
