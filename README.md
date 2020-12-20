@@ -1,10 +1,10 @@
 # OpenSSL CURL APACHE2 PHP5 + MOD_SECURITY
-Proses Upgrade perintah CURL pada PHP agar mendukung libssl1.0.1o sehingga dapat digunakan untuk request ke https server > TLS1.0 pada Ubuntu Server 9.04.
+Kebanyakan browser besar telah mengakhiri dukungan kepada TLS 1.0 dan TLS 1.1, sehingga kebanyakan webserver didunia telah mengupgrade ke TLS > 1.1. Jika anda menggunakan CURL untuk berkomunikasi dengan server yang telah diupgrade, maka adalah perlu dipastikan bahwa CURL yang digunakan sebagai client juga mendukung TLS > 1.1. Tulisan ini adalah langkah-langkah yang perlu dilakukan untuk mengupgrade CURL pada CLI dan PHP pada Ubuntu Server 9.04.
 
 ## INSTALASI OPENSSL, CURL, APACHE2, PHP5
 --------------------------------------
 
-Semua proses dibawah ini adalah menggunakan level power user
+Pada tulisan ini akan dimulai dengan mengupgrade OpenSSL, CURL, APACHE2 dan PHP5 dan semua dibawah ini adalah menggunakan level power user.
 ```
 sudo su
 ```
@@ -19,7 +19,7 @@ Lakukan terlebih dahulu database untuk perintah Locate
 updatedb
 ```
 
-File yang dibutuhkan:
+File yang dibutuhkan pada proses ini:
 1. apache.sh
 2. config.nice
 
@@ -334,5 +334,5 @@ SecRuleEngine DetectionOnly
 ```
 
 # Kesimpulan
-Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o.
-Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai yang mengarah kepada eksploitasi WEB seperti tindakan SqlInjection dan XSS.
+Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL kita perlu menggunakan libssl1.0.1o untuk mendukung TLS > 1.1.
+Kemudian Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai melalui predefined rule untuk mendeteksi eksploitasi WEB seperti upaya SqlInjection dan XSS.
