@@ -234,6 +234,23 @@ wget http://localhost/test.php
 dan periksa isi file test.php.1 apakah ada pesan error.
 
 ## INSTALASI MOD-SECURITY (Web Application Firewall)
+Jalankan perintah berikut untuk melihat response header sebelum aplikasi dari WAF
+```
+curl -i localhost
+```
+Perhatikan hasil response pada baris Server: ...
+```
+HTTP/1.1 200 OK
+Date: Tue, 28 Apr 2009 22:06:21 GMT
+Server: Apache/2.2.11 (Ubuntu) PHP/5.2.6-3ubuntu4.1 with Suhosin-Patch
+Last-Modified: Tue, 28 Apr 2009 21:39:54 GMT
+ETag: “50d4a-2d-468a44dadbe80”
+Accept-Ranges: bytes
+Content-Length: 45
+Vary: Accept-Encoding
+Content-Type: text/html
+```
+Proses instalasi
 ```
 apt-get install libapache-mod-security
 a2enmod mod-security
@@ -265,6 +282,44 @@ rm CHANGELOG LICENSE README modsecurity-core-rules_2.5-1.6.1.tar.gz
 Restart kembali service Apache2
 ```
 service apache2 restart
+```
+### Periksa Hasil instalasi
+Jalankan perintah berikut untuk melihat response header setelah aplikasi dari WAF
+```
+curl -i localhost
+```
+Perhatikan hasil response pada baris Server: ...
+```
+HTTP/1.1 200 OK
+Date: Tue, 28 Apr 2009 22:06:21 GMT
+Server: Apache/2.2.11 (Ubuntu)
+Last-Modified: Tue, 28 Apr 2009 21:39:54 GMT
+ETag: “50d4a-2d-468a44dadbe80”
+Accept-Ranges: bytes
+Content-Length: 45
+Vary: Accept-Encoding
+Content-Type: text/html
+```
+Buka file /etc/apache2/conf.d/security, dan ubah:
+```
+ServerTokens Prod
+```
+Restart Apache2
+```
+service apache2 restart
+curl -i localhost
+```
+Perhatikan kembali hasil response pada baris Server: ...
+```
+HTTP/1.1 200 OK
+Date: Tue, 28 Apr 2009 22:06:21 GMT
+Server: Apache
+Last-Modified: Tue, 28 Apr 2009 21:39:54 GMT
+ETag: “50d4a-2d-468a44dadbe80”
+Accept-Ranges: bytes
+Content-Length: 45
+Vary: Accept-Encoding
+Content-Type: text/html
 ```
 
 # Kesimpulan
