@@ -324,7 +324,14 @@ Vary: Accept-Encoding
 Content-Type: text/html
 ```
 Log dari mod_security dapat dibaca di /var/log/apache2/mod_security yang terdiri dari file modsec_audit.log.
-Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda.
+Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda, jika setelah pengaktifan rules terdapat anomali pada aplikasi anda, maka anda dapat mengubah modus dari mod_security ke level DetectionOnly (dari On), dengan melakukan perubahan pada file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf.
+```
+pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
+```
+dan ubah setting ke
+```
+SecRuleEngine DetectionOnly
+```
 
 # Kesimpulan
 Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL adalah menggunakan libssl1.0.1o.
