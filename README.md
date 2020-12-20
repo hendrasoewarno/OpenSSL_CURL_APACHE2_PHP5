@@ -233,26 +233,38 @@ wget http://localhost/test.php
 ```
 dan periksa isi file test.php.1 apakah ada pesan error.
 
-## INSTALASI MOD-SECURITY
+## INSTALASI MOD-SECURITY (Web Application Firewall)
 ```
 apt-get install libapache-mod-security
 a2enmod mod-security
 service apache2 restart
 ```
-Periksa module mod_security telah diaktifkan
+Periksa module mod_security telah diaktifkan dengan perintah apache2ctl -M
 ```
 apache2ctl -M
 ```
-dan akan tampil security2_module (shared)
+dan periksa apakah ada baris security2_module (shared), kemudian buatlah file konfigurasikan untuk kebutuhan memasukan rules mod-security
 ```
 echo "Include conf.d/modsecurity/*.conf" > /etc/apache2/conf.d/modsecurity2.conf
 ```
-yang bertujuan untuk memasukan semua rules mod_security
-Langkah selanjutnya adalah membuat symbolic link untuk mengalihkan semua log file mod_security dari /etc/apache2/logs ke /var/log/apache2/mod_security
-
+kemudian membuat membuat symbolic link untuk mengalihkan semua log file mod_security dari /etc/apache2/logs ke /var/log/apache2/mod_security
 ```
 mkdir /var/log/apache2/mod_security
 ln -s /var/log/apache2/mod_security/ /etc/apache2/logs
+```
+dan selanjutnya membuat folder /etc/apache2/conf.d/modsecurity untuk menampung rules mod-security
+```
+mkdir /etc/apache2/conf.d/modsecurity
+```
+Selanjutkan adalah mempersiapkan rules mod-security yang terdapat pada file modsecurity-core-rules_2.5-1.6.1.tar.gz, download dan copy ke folder /etc/apache2/conf.d/modsecurity, ekstrak ke folder yang sama (tidak membuat sub folder), dan hapus file yang tidak digunakan.
+```
+cd /etc/apache2/conf.d/modsecurity
+tar xzvf modsecurity-core-rules_2.5-1.6.1.tar.gz
+rm CHANGELOG LICENSE README modsecurity-core-rules_2.5-1.6.1.tar.gz
+```
+Restart kembali service Apache2
+```
+service apache2 restart
 ```
 
 # Kesimpulan
