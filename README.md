@@ -340,7 +340,11 @@ dan ubah setting ke
 ```
 SecRuleEngine DetectionOnly
 ```
-
+Jika setelah implementasi ditemukan banyak halaman WEB anda yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan Internal Server Error, hal ini berarti bahwa hasil pemeriksaan response dari halaman WEB anda ke client juga mengandung script yang beresiko. Jika anda menjalankan Mod-Security hanya untuk mendeteksi request dari user, maka anda dapat mempertimbangkan untuk mengubah setting pada modsecurity_crs_10_config.conf untu:
+```
+SecResponseBodyAccess Off
+```
+dan jangan lupa melakukan restart server Apache anda.
 # Kesimpulan
-Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL kita perlu menggunakan libssl1.0.1o untuk mendukung TLS > 1.1.
-Kemudian Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai melalui predefined rule untuk mendeteksi eksploitasi WEB seperti upaya SqlInjection dan XSS.
+Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache2+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL kita perlu menggunakan libssl1.0.1o untuk mendukung TLS > 1.1.
+Kemudian Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai melalui predefined rule untuk mendeteksi eksploitasi WEB seperti upaya SqlInjection dan XSS maupun eksplotasi oleh pengembang dengan mengirim script yang beresiko ke sisi Client.
