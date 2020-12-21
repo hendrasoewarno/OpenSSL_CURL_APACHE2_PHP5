@@ -78,9 +78,9 @@ make install
 ```
 Mengaktifkan libssl1.0.1o dengan menambahkan ke ld.so.conf.d
 ```
-echo "/usr/local/ssl" > /etc/ld.so.conf.d/openssl-1.0.1o.conf
+echo "/usr/local/ssl/lib" > /etc/ld.so.conf.d/openssl-1.0.1o.conf
 ```
-Perintah tersebut diatas akan membuat file /etc/ld.so.conf.d/openssl-1.0.1o.conf yang berisi /usr/local/ssl
+Perintah tersebut diatas akan membuat file /etc/ld.so.conf.d/openssl-1.0.1o.conf yang berisi /usr/local/ssl/lib untuk referensi ke library baru
 Jalankan perintah berikut untuk menghapus library cache dan merefresh kembali
 ```
 rm /etc/ld.so.cache
