@@ -340,7 +340,7 @@ dan ubah setting ke
 ```
 SecRuleEngine DetectionOnly
 ```
-Jika setelah implementasi ditemukan banyak halaman WEB anda yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan <b>Internal Server Error</b>, hal ini berarti bahwa hasil pemeriksaan response dari halaman WEB anda ke client juga mengandung script yang beresiko. Jika anda menjalankan Mod-Security hanya untuk mendeteksi request dari user, maka anda dapat mempertimbangkan untuk mengubah setting pada modsecurity_crs_10_config.conf untu:
+Jika setelah implementasi ditemukan banyak halaman WEB anda yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan <b>Internal Server Error</b>, hal ini berarti bahwa hasil pemeriksaan response dari halaman WEB anda ke client juga mengandung script yang beresiko. Jika anda menjalankan Mod-Security hanya untuk mendeteksi request dari user, maka anda dapat mempertimbangkan untuk mengubah setting pada modsecurity_crs_10_config.conf menjadi:
 ```
 SecResponseBodyAccess Off
 ```
