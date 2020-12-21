@@ -224,6 +224,11 @@ libtool --finish /usr/local/src/php-5.4.45/libs
 
 ** karena curl dicompile sebagai module, sehingga perlu diaktifkan sebagai extension dengan membuat curl.ini pada /etc/php5/conf.d
 ```
+locate curl.so
+ldd /usr/local/src/20100525/curl.so
+```
+Pastikan telah menggunakan versi libssl dan libcurl yang sesuai
+```
 cd /etc/php5/conf.d
 pico curl.ini
 	; configuration for php CURL module
