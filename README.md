@@ -331,6 +331,10 @@ Content-Length: 45
 Vary: Accept-Encoding
 Content-Type: text/html
 ```
+Jika anda juga ingin menyamarkan informasi Server: Apache menjadi NodeJS (walaupun belum tentu efektif), maka pada Mod-Security dapat dilakukan dengan menambahkan baris:
+```
+SecServerSignature "NodeJS"
+```
 Log dari mod_security dapat dibaca di /var/log/apache2/mod_security yang terdiri dari file modsec_audit.log.
 Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda, jika setelah pengaktifan rules terdapat anomali pada aplikasi anda, maka anda dapat mengubah modus dari mod_security ke level DetectionOnly (dari On), dengan melakukan perubahan pada file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf.
 ```
