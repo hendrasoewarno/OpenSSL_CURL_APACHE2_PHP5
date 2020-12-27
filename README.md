@@ -358,7 +358,14 @@ Jika setelah implementasi ditemukan beberapa aplikasi yang awalnya berjalan deng
 SecRuleEngine Off
 </Directory>
 ```
-dan jangan lupa melakukan restart server Apache anda.
+### Non-Aktifkan Rule Mod-Security berdasarkan Id
+Jika anda menemukan ada beberapa rule yang tidak sesuai dengan prilaku aplikasi, dan anda ingin mengabaikan rule tersebut:
+```
+<IfModule mod_security2.c>
+    SecRuleRemoveById 950109 950901 958291 dst
+</IfModule>
+```
+Ingat, pada setipan perubahan setting, maka jangan lupa melakukan restart server Apache anda.
 # Kesimpulan
 Karena pada umumnya package pada Ubuntu 9.04 adalah didasarkan pada libssl0.9.8, maka proses kompilasi Apache2+PHP adalah tetap menggunakan header maupun library libssl0.9.8, tetapi untuk CURL kita perlu menggunakan libssl1.0.1o untuk mendukung TLS > 1.1.
 Kemudian Mod_Security bekerja sebagai Web Application Firewall untuk menfilter request dari pemakai melalui predefined rule untuk mendeteksi eksploitasi WEB seperti upaya SqlInjection dan XSS maupun eksplotasi oleh pengembang dengan mengirim script yang beresiko ke sisi Client.
