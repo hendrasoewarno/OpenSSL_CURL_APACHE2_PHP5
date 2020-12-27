@@ -336,7 +336,9 @@ Jika anda juga ingin menyamarkan informasi Server: Apache menjadi NodeJS (walaup
 SecServerSignature "NodeJS"
 ```
 Log dari mod_security dapat dibaca di /var/log/apache2/mod_security yang terdiri dari file modsec_audit.log.
-Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda, jika setelah pengaktifan rules terdapat anomali pada aplikasi anda, maka anda dapat mengubah modus dari mod_security ke level DetectionOnly (dari On), dengan melakukan perubahan pada file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf.
+Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda
+### Non-Aktifkan Mod-Security
+jika setelah pengaktifan rules terdapat anomali pada aplikasi anda, maka anda dapat mengubah modus dari mod_security ke level DetectionOnly (dari On), dengan melakukan perubahan pada file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf.
 ```
 pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
 ```
@@ -344,9 +346,17 @@ dan ubah setting ke
 ```
 SecRuleEngine DetectionOnly
 ```
-Jika setelah implementasi ditemukan banyak halaman WEB anda yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan <b>Internal Server Error</b>, hal ini berarti bahwa hasil pemeriksaan response dari halaman WEB anda ke client juga mengandung script yang beresiko. Jika anda menjalankan Mod-Security hanya untuk mendeteksi request dari user, maka anda dapat mempertimbangkan untuk mengubah setting pada modsecurity_crs_10_config.conf menjadi:
+### Non-Aktifkan Mod-Security terhadap Response ke User
+Jika setelah implementasi ditemukan banyak halaman WEB anda yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan <b>Internal Server Error</b>, hal ini berarti bahwa hasil pemeriksaan response dari halaman WEB anda ke client juga mengandung script yang beresiko. Jika anda menjalankan Mod-Security hanya untuk mendeteksi request dari user dan mengabaikan response ke user, maka anda dapat mempertimbangkan untuk mengubah setting pada modsecurity_crs_10_config.conf menjadi:
 ```
 SecResponseBodyAccess Off
+```
+### Non-Aktifkan Mod-Security terhadap aplikasi tertentu
+Jika setelah implementasi ditemukan beberapa aplikasi yang awalnya berjalan dengan baik, tetapi sekarang mendapatkan pesan <b>Internal Server Error</b>, sehingga anda ingin Mod-Security mengabaikan aplikasi tertentu, maka anda dapat menambahkan SecRuleEngine Off pada setting directory aplikasi anda.
+```
+<Directory /var/www/site/phpMyAdmin>
+SecRuleEngine Off
+</Directory>
 ```
 dan jangan lupa melakukan restart server Apache anda.
 # Kesimpulan
