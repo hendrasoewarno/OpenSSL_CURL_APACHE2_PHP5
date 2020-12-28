@@ -270,20 +270,20 @@ apache2ctl -M
 ```
 dan periksa apakah ada baris security2_module (shared), kemudian buatlah file konfigurasikan untuk kebutuhan memasukan rules mod-security
 ```
-echo "Include conf.d/modsecurity/*.conf" > /etc/apache2/conf.d/modsecurity2.conf
+echo "Include /etc/apache2/modsecurity/*.conf" > /etc/apache2/conf.d/modsecurity2.conf
 ```
 kemudian membuat membuat symbolic link untuk mengalihkan semua log file mod_security dari /etc/apache2/logs ke /var/log/apache2/mod_security
 ```
 mkdir /var/log/apache2/mod_security
 ln -s /var/log/apache2/mod_security/ /etc/apache2/logs
 ```
-dan selanjutnya membuat folder /etc/apache2/conf.d/modsecurity untuk menampung rules mod-security
+dan selanjutnya membuat folder /etc/apache2/modsecurity untuk menampung rules mod-security
 ```
-mkdir /etc/apache2/conf.d/modsecurity
+mkdir /etc/apache2/modsecurity
 ```
-Selanjutkan adalah mempersiapkan rules mod-security yang terdapat pada file modsecurity-core-rules_2.5-1.6.1.tar.gz, download dan copy ke folder /etc/apache2/conf.d/modsecurity, ekstrak ke folder yang sama (tidak membuat sub folder), dan hapus file yang tidak digunakan.
+Selanjutkan adalah mempersiapkan rules mod-security yang terdapat pada file modsecurity-core-rules_2.5-1.6.1.tar.gz, download dan copy ke folder /etc/apache2/modsecurity, ekstrak ke folder yang sama (tidak membuat sub folder), dan hapus file yang tidak digunakan.
 ```
-cd /etc/apache2/conf.d/modsecurity
+cd /etc/apache2/modsecurity
 tar xzvf modsecurity-core-rules_2.5-1.6.1.tar.gz
 rm CHANGELOG LICENSE README modsecurity-core-rules_2.5-1.6.1.tar.gz
 ```
@@ -333,7 +333,13 @@ Content-Type: text/html
 ```
 Jika anda juga ingin menyamarkan informasi Server: Apache menjadi NodeJS (walaupun belum tentu efektif), maka pada Mod-Security dapat dilakukan dengan menambahkan baris:
 ```
-SecServerSignature "NodeJS"
+pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
+	SecServerSignature "NodeJS"
+```
+Awalnya Mod-Security akan bekerja pada modus Error Log saja, dan meneruskan request, jika anda ingin menolak request yang terdeteksi oleh rule, maka buka file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf dan hilangkan # pada SecDefaultAction ...
+```
+pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
+	SecDefaultAction "phase:2,log,deny,status:403,t:lowercase,t:replaceNulls,t:compressWhitespace"
 ```
 Log dari mod_security dapat dibaca di /var/log/apache2/mod_security yang terdiri dari file modsec_audit.log.
 Selanjutnya adalah anda perlu melakukan review dengan mengaktifkan ataupun mematikan rules yang terdapat pada folder /etc/apache2/conf.d/modsecurity untuk mengefektifkan rule dan meminimalkan impact kepada aplikasi anda
