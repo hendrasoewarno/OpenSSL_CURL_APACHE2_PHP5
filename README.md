@@ -375,7 +375,12 @@ Pendekatan lain untuk menon-aktifkan rule adalah melakukan remark langsung pada 
 ### Modifikasi Rule
 Misalkan anda ingin menambahkan prilaku rule tertentu agar dapat mengenali tanda remark (-- dan #) yang banyak dipakai pada SQL Injection untuk mendisable operasi berikutnya. pada file modsecurity_crs_40_generic_attacks.conf, baris 71 atau rule id 959901:
 ```
-SecRule REQUEST_HEADERS|XML:/*|!REQUEST_HEADERS:Referer "\b(\d+) ?= ?\1\b|[\'\"](\w+)[\'\"] ?= ?[\'\"]\2\b<b>|.*[-]{2,}.*|.*#.*</b>" \
+SecRule REQUEST_HEADERS|XML:/*|!REQUEST_HEADERS:Referer "\b(\d+) ?= ?\1\b|[\'\"](\w+)[\'\"] ?= ?[\'\"]\2\b" \
+        "phase:2,capture,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhiteSpace,t:lowercase,ctl:auditLogParts=+E,deny,log,auditlog,status:501,msg:'SQL Injection Attack',id:'959901',tag:'WEB_ATTACK/SQL_INJECTION',logdata:'%{TX.0}',severity:'2'"
+```
+menjadi
+```
+SecRule REQUEST_HEADERS|XML:/*|!REQUEST_HEADERS:Referer "\b(\d+) ?= ?\1\b|[\'\"](\w+)[\'\"] ?= ?[\'\"]\2\b|.*[-]{2,}.*|.*#.*" \
         "phase:2,capture,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhiteSpace,t:lowercase,ctl:auditLogParts=+E,deny,log,auditlog,status:501,msg:'SQL Injection Attack',id:'959901',tag:'WEB_ATTACK/SQL_INJECTION',logdata:'%{TX.0}',severity:'2'"
 ```
 Ingat, pada setipan perubahan setting, maka jangan lupa melakukan restart server Apache anda.
