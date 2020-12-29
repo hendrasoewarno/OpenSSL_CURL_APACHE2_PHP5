@@ -336,6 +336,18 @@ Jika anda juga ingin menyamarkan informasi Server: Apache menjadi NodeJS (walaup
 pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
 	SecServerSignature "NodeJS"
 ```
+dan hasil response header akan menjadi:
+```
+HTTP/1.1 200 OK
+Date: Tue, 28 Apr 2009 22:06:21 GMT
+Server: NodeJS
+Last-Modified: Tue, 28 Apr 2009 21:39:54 GMT
+ETag: “50d4a-2d-468a44dadbe80”
+Accept-Ranges: bytes
+Content-Length: 45
+Vary: Accept-Encoding
+Content-Type: text/html
+```
 Awalnya Mod-Security akan bekerja pada modus Error Log saja, dan meneruskan request, jika anda ingin menolak request yang terdeteksi oleh rule, maka buka file /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf dan hilangkan # pada SecDefaultAction ...
 ```
 pico /etc/apache2/cond.d/modsecurity/modsecurity_crs_10_config.conf
