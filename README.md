@@ -1,4 +1,4 @@
-# OpenSSL CURL APACHE2 PHP5 + MOD_SECURITY
+# Kompilasi OpenSSL, Curl, PHP dan Apache
 Kebanyakan browser besar telah mengakhiri dukungan kepada TLS 1.0 dan TLS 1.1, sehingga kebanyakan webserver didunia telah mengupgrade ke TLS > 1.1. Jika anda menggunakan CURL untuk berkomunikasi dengan server yang telah diupgrade, maka adalah perlu dipastikan bahwa CURL yang digunakan sebagai client juga mendukung TLS > 1.1. Adapun symptom kegagalan koneksi CURL adalah dengan pesan kesalahan:
 ```
 SSL routine: SSL23_GET_SERVER_HELLO:sslv3 alert handshake failure
